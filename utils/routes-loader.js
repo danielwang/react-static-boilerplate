@@ -57,8 +57,19 @@ module.exports = function routesLoader(source) {
     output.push(`    pattern: ${pattern.toString()},\n`);
     output.push(`    keys: ${JSON.stringify(keys)},\n`);
     output.push(`    page: '${escape(route.page)}',\n`);
-    if (route.data) {
-      output.push(`    data: ${JSON.stringify(route.data)},\n`);
+    if (route.props) {
+      output.push('    props: {\n');
+      Object.keys(route.props).forEach(key => {
+        output.push(`      ${key}: ${route.props[key]}, \n`);
+      });
+      output.push('    },\n');
+    }
+    if (route.queries) {
+      output.push('    queries: {\n');
+      Object.keys(route.queries).forEach(key => {
+         output.push(`      ${key}: Relay.QL\`${route.queries[key]}\`, \n`);
+      });
+      output.push('    },\n');
     }
     output.push(`    load() {\n      return ${require(route.page)};\n    },\n`);
     output.push('  },\n');

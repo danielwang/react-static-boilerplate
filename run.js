@@ -11,6 +11,7 @@
 /* eslint-disable no-console, global-require */
 
 const fs = require('fs');
+const url = require('url');
 const del = require('del');
 const ejs = require('ejs');
 const webpack = require('webpack');
@@ -37,6 +38,18 @@ function run(task) {
 // Clean up the output directory
 // -----------------------------------------------------------------------------
 tasks.set('clean', () => del(['public/dist/*', '!public/dist/.git'], { dot: true }));
+
+//
+// Save GraphQL schema
+// -----------------------------------------------------------------------------
+tasks.set('schema', () => {
+  const url = 'http://try.sangria-graphql.org/graphql';
+  const query = require('graphql/utilities/introspectionQuery').introspectionQuery;
+  const request = require('request').defaults({ jar: true /* cookies container */ });
+  request.get(url, () => request.post(url, { json: { query } }, (err, resp, body) => {
+    fs.writeFileSync('schema.json', JSON.stringify(body.data, null, '  '), 'utf8');
+  }));
+});
 
 //
 // Copy ./index.html into the /public folder
@@ -139,6 +152,13 @@ tasks.set('start', () => {
           server: {
             baseDir: 'public',
             middleware: [
+              require('proxy-middleware')(Object.assign({},
+                url.parse('http://try.sangria-graphql.org/graphql'),
+                {
+                  route: '/graphql',
+                  cookieRewrite: true,
+                }
+              )),
               webpackDevMiddleware,
               require('webpack-hot-middleware')(compiler),
               require('connect-history-api-fallback')(),

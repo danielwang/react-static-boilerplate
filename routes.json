@@ -3,8 +3,11 @@
     "path": "/",
     "page": "./pages/home",
     "chunk": "main",
-    "data": {
-      "articles": "GET https://gist.githubusercontent.com/koistya/a32919e847531320675764e7308b796a/raw/articles.json"
+    "props": {
+      "articles": "() => fetch('https://gist.githubusercontent.com/koistya/a32919e847531320675764e7308b796a/raw/articles.json').then(x => x.json())"
+    },
+    "queries": {
+      "hero": "query { hero }"
     }
   },
   {

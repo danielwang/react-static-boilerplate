@@ -9,6 +9,7 @@
  */
 
 import React, { PropTypes } from 'react';
+import Relay from 'react-relay';
 import Layout from '../../components/Layout';
 import s from './styles.css';
 import { title, html } from './index.md';
@@ -42,4 +43,8 @@ class HomePage extends React.Component {
 
 }
 
-export default HomePage;
+export default Relay.createContainer(HomePage, {
+  fragments: {
+    hero: () => Relay.QL`fragment on Character { name }`
+  }
+});

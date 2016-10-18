@@ -13,12 +13,32 @@ import 'whatwg-fetch';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Relay from 'react-relay';
 import FastClick from 'fastclick';
 import { Provider } from 'react-redux';
 
 import store from './core/store';
 import router from './core/router';
 import history from './core/history';
+
+// const node = Relay.QL`query HeroAndFriends {
+//   hero {
+//     name
+//     friends {
+//       name
+//     }
+//   }
+// }`;
+// const query = Relay.createQuery(node, {});
+//
+// Relay.Store.primeCache({ query }, readyState => {
+//   console.log(readyState);
+//   if (readyState) {
+//     const resp = Relay.Store.readQuery(query);
+//     console.log(resp);
+//     render(history.getCurrentLocation());
+//   }
+// });
 
 let routes = require('./routes.json'); // Loaded with utils/routes-loader.js
 const container = document.getElementById('container');

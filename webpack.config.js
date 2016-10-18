@@ -23,6 +23,9 @@ const babelConfig = Object.assign({}, pkg.babel, {
   cacheDirectory: useHMR,
 });
 
+babelConfig.passPerPreset = true;
+babelConfig.presets.unshift({ plugins: [require.resolve('./utils/babel-relay-plugin')] });
+
 // Webpack configuration (main.js => public/dist/main.{hash}.js)
 // http://webpack.github.io/docs/configuration.html
 const config = {
