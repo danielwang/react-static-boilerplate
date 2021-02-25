@@ -15,10 +15,10 @@
 .title {
   color: #fff;
   text-decoration: none;
+  font-size: 3rem;
 }
 
 @media screen and (max-width: 1024px) {
-
   .header {
     display: flex;
   }
@@ -26,5 +26,4 @@
   .row {
     padding: 0 16px;
   }
-
 }
